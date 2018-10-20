@@ -39,7 +39,7 @@ pip3 install -r requirements.txt
 ![enter image description here](Pic/abuyun.png)
 ![enter image description here](Pic/abuyun_1.png)
 ## :dolphin:**总结**
-> **最后，如果你觉得这个项目不错或者对你有帮助，给个Star呗，也算是对我学习路上的一种鼓励！哈哈哈~感谢大家！**<br><br>
+> **最后，如果你觉得这个项目不错或者对你有帮助，给个Star呗，也算是对我学习路上的一种鼓励！哈哈哈~感谢大家！**:cupid:
 
 
 
