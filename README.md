@@ -9,8 +9,7 @@ Scrapy框架爬取中国裁判文书网案件数据 ![enter image description he
       
 ****
 ## :dolphin:声明
-### 抱歉，代码仅用于学习交流！！所以在此我并没有公开部分参数的JS解密文件。感谢大家！  
-### 因为我不想被请 drink tea 啊~~:coffee:大家懂得哈！:eyes:
+### 软件均仅用于学习交流，请勿用于任何商业用途！感谢大家！ 
 ## :dolphin:介绍
 ### 该项目为Scrapy框架爬取[中国裁判文书网](http://wenshu.court.gov.cn/)案件数据（2018-10-20最新版）
 - 项目文件: Wenshu_Project
