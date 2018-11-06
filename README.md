@@ -22,7 +22,7 @@ Scrapy框架爬取中国裁判文书网案件数据 ![enter image description he
  
 > **速度问题** : 配置在setting.py中:DOWNLOAD_DELAY = 0（无delay实现请求0延时）;CONCURRENT_REQUESTS_PER_SPIDER = 5 （开启线程数为5）;因为我用的代理配置是默认的每秒5个请求数,所以在此设置线程数为5;如果想爬取更快,可以加大代理请求数（当然是要money滴~）,最高可以加到100的请求数,我滴天呀,那得多快啊！我现在的速度大概每秒爬取4个案件,加到100的话,估计每秒80个,一分钟4800个,一小时288000,一天就是6912000,目前总量5千4百万,大概8~9天就能爬完,如果在加上redis分布式的话,哇,不敢想象！:yum:
 ## :dolphin:运行环境
-- **Version: Python3**<br><br>
+- **Version: Python3**<br>
 - **JS解析环境: Nodejs**<br>
   有不少小伙伴向我反映运行后报错:execjs._exceptions.ProgramError: TypeError: 'key' 为 null 或不是对象<br>
   解决方案如下:<br>
