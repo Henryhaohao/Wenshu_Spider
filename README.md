@@ -27,6 +27,7 @@ Scrapy框架爬取中国裁判文书网案件数据 ![enter image description he
   有不少小伙伴向我反映运行后报错:execjs._exceptions.ProgramError: TypeError: 'key' 为 null 或不是对象<br>
   解决方案如下:<br>
         如果pyexecjs包没问题的话,那就是没有安装nodejs的问题; 因为你没有安装nodejs的话默认js解析环境是JScript, 但是项目中的js代码有的地方需要node环境才能运行, 所以需要装一下Nodejs再运行就好了;<br>
+        注意: nodejs安装完成后记得把IDE关闭重新打开，比如pycharm，不然IDE不会监测到jscript引擎的变化，导致依然报错
         关于NodeJs安装可以参考这篇文章: https://www.cnblogs.com/liuqiyun/p/8133904.html
 ## :dolphin:安装依赖库 
 ```
