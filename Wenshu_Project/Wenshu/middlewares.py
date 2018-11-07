@@ -41,8 +41,9 @@ class ProxyMiddleware(object):
     def process_response(self, request, response, spider):
         '''处理返回的response'''
         # print(response.url)
-        # print(response.body)
-        if response.status != 200 or response.body in [b'"remind key"', b'remind'] or '请开启JavaScript'.encode() in response.body:
+        html = response.body.decode()
+        if response.status != 200 or 'remind key' in html or 'remind' in html or '请开启JavaScript' in html or '服务不可用' in html:
+            print('正在重新请求************')
             new_request = request.copy()
             new_request.dont_filter = True
             return new_request
