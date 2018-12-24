@@ -104,49 +104,46 @@ class WenshuSpider(scrapy.Spider):
     def get_detail(self, response):
         '''获取每条案件详情'''
         html = response.text
-        content_1 = json.loads(re.search(r'JSON.stringify\((.*?)\);', html).group(1))  # 内容详情字典1
-        content_2 = re.findall(r'value: "(.*?)"', html)  # 内容详情字典2 #2/3/5/6
-        content_3 = re.search(r'"Html\\":\\"(.*?)\\"}', html).group(1)  # 内容详情字典3(doc文档正文)
-        len2 = len(content_2)
+        content_1 = json.loads(re.search(r'JSON\.stringify\((.*?)\);\$\(document', html).group(1))  # 内容详情字典1
+        content_3 = re.search(r'"Html\\":\\"(.*?)\\"}"', html).group(1)  # 内容详情字典3(doc文档正文)
         reg = re.compile(r'<[^>]+>', re.S)
         # 存储到item
         item = WenshuCaseItem()
         item['casecourt'] = {
-            'casecourtid': content_1.get('法院ID', 'null'),
-            'casecourtname': content_1.get('法院名称', 'null'),
-            'casecourtprovince': content_1.get('法院省份', 'null'),
-            'casecourtcity': content_1.get('法院地市', 'null'),
-            'casecourtdistrict': content_1.get('法院区县', 'null'),
-            'casecourtarea': content_1.get('法院区域', 'null'),
+            'casecourtid': content_1.get('法院ID', ''),
+            'casecourtname': content_1.get('法院名称', ''),
+            'casecourtprovince': content_1.get('法院省份', ''),
+            'casecourtcity': content_1.get('法院地市', ''),
+            'casecourtdistrict': content_1.get('法院区县', ''),
+            'casecourtarea': content_1.get('法院区域', ''),
         }
         item['casecontent'] = {
-            'casebasecontent': content_1.get('案件基本情况段原文', 'null'),
-            'caseaddcontent': content_1.get('附加原文', 'null'),
-            'caseheadcontent': content_1.get('文本首部段落原文', 'null'),
-            'casemaincontent': content_1.get('裁判要旨段原文', 'null'),
-            'casecorrectionscontent': content_1.get('补正文书', 'null'),
-            'casedoccontent': content_1.get('DocContent', 'null'),
-            'caselitigationcontent': content_1.get('诉讼记录段原文', 'null'),
-            'casepartycontent': content_1.get('诉讼参与人信息部分原文', 'null'),
-            'casetailcontent': content_1.get('文本尾部原文', 'null'),
-            'caseresultcontent': content_1.get('判决结果段原文', 'null'),
+            'casebasecontent': content_1.get('案件基本情况段原文', ''),
+            'caseaddcontent': content_1.get('附加原文', ''),
+            'caseheadcontent': content_1.get('文本首部段落原文', ''),
+            'casemaincontent': content_1.get('裁判要旨段原文', ''),
+            'casecorrectionscontent': content_1.get('补正文书', ''),
+            'casedoccontent': content_1.get('DocContent', ''),
+            'caselitigationcontent': content_1.get('诉讼记录段原文', ''),
+            'casepartycontent': content_1.get('诉讼参与人信息部分原文', ''),
+            'casetailcontent': content_1.get('文本尾部原文', ''),
+            'caseresultcontent': content_1.get('判决结果段原文', ''),
             'casestrcontent': reg.sub('', content_3),  # 去除html标签后的文书内容
         }
-        item['casetype'] = content_2[1] if len2 >= 2 else 'null'  # 案件类型
-        item['casereason'] = content_2[2] if len2 >= 3 else 'null'  # 案由
-        item['casejudgedate'] = content_2[4] if len2 >= 5 else 'null'  # 判决日期
-        item['caseparty'] = content_2[5] if len2 >= 6 else 'null'  # 当事人
-        item['caseprocedure'] = content_1.get('审判程序', 'null')
-        item['casenumber'] = content_1.get('案号', 'null')
-        item['casenopublicreason'] = content_1.get('不公开理由', 'null')
-        item['casedocid'] = content_1.get('文书ID', 'null')
-        item['casename'] = content_1.get('案件名称', 'null')
-        item['casecontenttype'] = content_1.get('文书全文类型', 'null')
+        item['casetype'] = content_1.get('案件类型', '')  # 案件类型
+        item['casejudgedate'] = content_1.get('裁判日期', '')  # 裁判日期
+        item['caseprocedure'] = content_1.get('审判程序', '')
+        item['casenumber'] = content_1.get('案号', '')
+        item['casenopublicreason'] = content_1.get('不公开理由', '')
+        item['casedocid'] = content_1.get('文书ID', '')
+        item['casename'] = content_1.get('案件名称', '')
+        item['casecontenttype'] = content_1.get('文书全文类型', '')
         item['caseuploaddate'] = time.strftime("%Y-%m-%d",
                                                time.localtime(int(content_1['上传日期'][6:-5]))) if 'Date' in content_1[
-            '上传日期'] else 'null'
+            '上传日期'] else ''
         item['casedoctype'] = content_1.get('案件名称').split('书')[0][-2:] if '书' in content_1.get(
             '案件名称') else '令'  # 案件文书类型:判决或者裁定...还有令
-        item['caseclosemethod'] = content_1.get('结案方式', 'null')
-        item['caseeffectivelevel'] = content_1.get('效力层级', 'null')
+        item['caseclosemethod'] = content_1.get('结案方式', '')
+        item['caseeffectivelevel'] = content_1.get('效力层级', '')
+
         yield item
