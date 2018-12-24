@@ -96,10 +96,11 @@ class WenshuSpider(scrapy.Spider):
         content = result[1:]
         for i in content:
             casewenshuid = i.get('文书ID', '')
+            casejudgedate = i.get('裁判日期', '')
             docid = self.js_2.call('getdocid', runeval, casewenshuid)
             print('*************文书ID:' + docid)
             url = 'http://wenshu.court.gov.cn/CreateContentJS/CreateContentJS.aspx?DocID={}'.format(docid)
-            yield scrapy.Request(url, callback=self.get_detail, dont_filter=True)
+            yield scrapy.Request(url, callback=self.get_detail, meta={'casejudgedate':casejudgedate}, dont_filter=True)
 
     def get_detail(self, response):
         '''获取每条案件详情'''
@@ -131,7 +132,7 @@ class WenshuSpider(scrapy.Spider):
             'casestrcontent': reg.sub('', content_3),  # 去除html标签后的文书内容
         }
         item['casetype'] = content_1.get('案件类型', '')  # 案件类型
-        item['casejudgedate'] = content_1.get('裁判日期', '')  # 裁判日期
+        item['casejudgedate'] = response.meta['casejudgedate']  # 裁判日期
         item['caseprocedure'] = content_1.get('审判程序', '')
         item['casenumber'] = content_1.get('案号', '')
         item['casenopublicreason'] = content_1.get('不公开理由', '')
